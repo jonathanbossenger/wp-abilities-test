@@ -1,0 +1,17 @@
+{
+    "name": "jonathan/wp-abilities-test",
+    "authors": [
+        {
+            "name": "Jonathan Bossenger",
+            "email": "jonathanbossenger@gmail.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.0"
+    }
+}
