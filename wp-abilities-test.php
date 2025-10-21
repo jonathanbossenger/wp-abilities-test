@@ -6,6 +6,12 @@
  * @package wp-abilities-test
  */
 
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once __DIR__ . '/vendor/autoload.php';
+} else {
+    wp_die( 'The Composer autoloader is not present, please run "composer install" from the plugin directory.' );
+}
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
