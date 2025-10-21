@@ -80,6 +80,22 @@ function wp_register_ability_admin_page() {
 	<?php
 }
 
+add_action( 'abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
+/**
+ * Registers the 'test-abilities' category.
+ *
+ * @return void
+ */
+function my_plugin_register_test_abilities_category() {
+	wp_register_ability_category(
+		'test-abilities',
+		array(
+			'label'       => __( 'Test Abilities', 'wp-abilities-test' ),
+			'description' => __( 'Abilities for testing the WordPress Abilities API.', 'wp-abilities-test' ),
+		)
+	);
+}
+
 add_action( 'abilities_api_init', 'my_plugin_register_debug_status_ability' );
 /**
  * Registers the 'my-plugin/debug-status' ability.
@@ -92,6 +108,7 @@ function my_plugin_register_debug_status_ability() {
 		array(
 			'label'               => __( 'Get the WordPress debug status', 'my-plugin' ),
 			'description'         => __( 'Retrieves the status of the WordPress Debugging Constants.', 'my-plugin' ),
+			'category'            => 'test-abilities',
 			'output_schema'       => array(
 				'type'       => 'object',
 				'properties' => array(

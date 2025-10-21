@@ -51,9 +51,26 @@ The plugin adds an admin menu page where these abilities can be tested interacti
 2. Click **Check Debug Status** to execute the PHP ability and see the WordPress debug configuration
 3. Enter a custom message in the text field and click **Alert User** to execute the JavaScript ability
 
+### Category Registration
+
+All abilities must belong to a category. Categories must be registered using the `abilities_api_categories_init` action hook. The plugin demonstrates category registration:
+
+```php
+add_action( 'abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
+function my_plugin_register_test_abilities_category() {
+    wp_register_ability_category(
+        'test-abilities',
+        array(
+            'label'       => __( 'Test Abilities', 'wp-abilities-test' ),
+            'description' => __( 'Abilities for testing the WordPress Abilities API.', 'wp-abilities-test' ),
+        )
+    );
+}
+```
+
 ### PHP Ability Example
 
-The plugin demonstrates how to register a PHP ability:
+The plugin demonstrates how to register a PHP ability with a category:
 
 ```php
 wp_register_ability(
@@ -61,6 +78,7 @@ wp_register_ability(
     array(
         'label'               => __( 'Get the WordPress debug status', 'my-plugin' ),
         'description'         => __( 'Retrieves the status of the WordPress Debugging Constants.', 'my-plugin' ),
+        'category'            => 'test-abilities',
         'output_schema'       => array(
             'type'       => 'object',
             'properties' => array(
@@ -82,7 +100,7 @@ wp_register_ability(
 
 ### JavaScript Ability Example
 
-The plugin also demonstrates JavaScript ability registration:
+The plugin also demonstrates JavaScript ability registration with a category:
 
 ```javascript
 const { registerAbility, executeAbility } = wp.abilities;
@@ -91,6 +109,7 @@ registerAbility({
     name: 'my-plugin/alert-user',
     label: 'Alert User',
     description: 'Display an alert message to the user',
+    category: 'test-abilities',
     input_schema: {
         type: 'object',
         properties: {
