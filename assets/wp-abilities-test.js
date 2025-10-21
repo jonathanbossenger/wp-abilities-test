@@ -1,6 +1,13 @@
 ( function( wp ) {
     // In your WordPress plugin or theme JavaScript
-    const { registerAbility, executeAbility } = wp.abilities;
+
+    const apiFetch = wp.apiFetch;
+
+    const { registerAbility, executeAbility, getAbilities } = wp.abilities;
+
+    apiFetch( { path: '/wp/v2/abilities' } ).then( ( abilities ) => {
+        console.log( abilities );
+    } );
 
     // Register a notification ability which sends an alert to the user
     registerAbility({
