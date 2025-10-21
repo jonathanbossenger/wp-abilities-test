@@ -80,7 +80,7 @@ function wp_register_ability_admin_page() {
 	<?php
 }
 
-add_action( 'abilities_api_init', 'my_plugin_register_test_abilities_category' );
+add_action( 'abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
 /**
  * Registers the 'test-abilities' category.
  *

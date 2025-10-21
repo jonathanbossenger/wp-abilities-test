@@ -53,16 +53,19 @@ The plugin adds an admin menu page where these abilities can be tested interacti
 
 ### Category Registration
 
-All abilities must belong to a category. The plugin demonstrates category registration:
+All abilities must belong to a category. Categories must be registered using the `abilities_api_categories_init` action hook. The plugin demonstrates category registration:
 
 ```php
-wp_register_ability_category(
-    'test-abilities',
-    array(
-        'label'       => __( 'Test Abilities', 'wp-abilities-test' ),
-        'description' => __( 'Abilities for testing the WordPress Abilities API.', 'wp-abilities-test' ),
-    )
-);
+add_action( 'abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
+function my_plugin_register_test_abilities_category() {
+    wp_register_ability_category(
+        'test-abilities',
+        array(
+            'label'       => __( 'Test Abilities', 'wp-abilities-test' ),
+            'description' => __( 'Abilities for testing the WordPress Abilities API.', 'wp-abilities-test' ),
+        )
+    );
+}
 ```
 
 ### PHP Ability Example
