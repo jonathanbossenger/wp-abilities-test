@@ -7,6 +7,7 @@
         name: 'my-plugin/alert-user',
         label: 'Alert User',
         description: 'Display an alert message to the user',
+        category: 'test-abilities',
         input_schema: {
             type: 'object',
             properties: {
