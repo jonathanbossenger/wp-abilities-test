@@ -6,10 +6,14 @@
  * @package wp-abilities-test
  */
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-    require_once __DIR__ . '/vendor/autoload.php';
+if ( ! function_exists( 'wp_register_ability' ) ) {
+    if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+        require_once __DIR__ . '/vendor/autoload.php';
+    } else {
+        wp_die( 'The Composer autoloader is not present, please run "composer install" from the plugin directory.' );
+    }
 } else {
-    wp_die( 'The Composer autoloader is not present, please run "composer install" from the plugin directory.' );
+    wp_die( 'The WordPress Abilities API is not active. Please either install and activate the Abilities API plugin, or run composer install from this plugin directory.' );
 }
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -80,7 +84,7 @@ function wp_register_ability_admin_page() {
 	<?php
 }
 
-add_action( 'abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
+add_action( 'wp_abilities_api_categories_init', 'my_plugin_register_test_abilities_category' );
 /**
  * Registers the 'test-abilities' category.
  *
@@ -96,7 +100,7 @@ function my_plugin_register_test_abilities_category() {
 	);
 }
 
-add_action( 'abilities_api_init', 'my_plugin_register_debug_status_ability' );
+add_action( 'wp_abilities_api_init', 'my_plugin_register_debug_status_ability' );
 /**
  * Registers the 'my-plugin/debug-status' ability.
  *
@@ -130,6 +134,7 @@ function my_plugin_register_debug_status_ability() {
 			'permission_callback' => 'my_plugin_register_debug_status_permission_callback',
 			'meta'                => array(
 				'type' => 'tool',
+                'show_in_rest' => true,
 			),
 		)
 	);
