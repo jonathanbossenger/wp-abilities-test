@@ -12,8 +12,6 @@ if ( ! function_exists( 'wp_register_ability' ) ) {
     } else {
         wp_die( 'The Composer autoloader is not present, please run "composer install" from the plugin directory.' );
     }
-} else {
-    wp_die( 'The WordPress Abilities API is not active. Please either install and activate the Abilities API plugin, or run composer install from this plugin directory.' );
 }
 
 if ( ! defined( 'ABSPATH' ) ) {

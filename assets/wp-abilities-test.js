@@ -5,7 +5,7 @@
 
     const { registerAbility, executeAbility, getAbilities } = wp.abilities;
 
-    apiFetch( { path: '/wp/v2/abilities' } ).then( ( abilities ) => {
+    apiFetch( { path: '/wp-abilities/v1/abilities' } ).then( ( abilities ) => {
         console.log( abilities );
     } );
 
