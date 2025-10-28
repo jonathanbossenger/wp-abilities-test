@@ -6,16 +6,12 @@
  * @package wp-abilities-test
  */
 
-if ( ! function_exists( 'wp_register_ability' ) ) {
-    if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-        require_once __DIR__ . '/vendor/autoload.php';
-    } else {
-        wp_die( 'The Composer autoloader is not present, please run "composer install" from the plugin directory.' );
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
 }
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if ( ! function_exists( 'wp_register_ability' ) ) {
+    wp_die( 'The Abilities API is not available.' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wp_register_ability_admin_enqueue_scripts' );
@@ -161,4 +157,27 @@ function my_plugin_register_debug_status_execute_callback() {
  */
 function my_plugin_register_debug_status_permission_callback() {
 	return current_user_can( 'manage_options' );
+}
+
+// Check if the MCP Adapter plugin is installed and active
+if ( class_exists( WP\MCP\Core\McpAdapter::class ) ) {
+    $adapter = WP\MCP\Core\McpAdapter::instance();
+    add_action('mcp_adapter_init', function($adapter) {
+        $adapter->create_server(
+            'ai-experiments-server',                    // Unique server identifier
+            'ai-experiments',                    // REST API namespace
+            'mcp',                            // REST API route
+            'My AI Experiments Server',                  // Server name
+            'My AI Experiments Server',       // Server description
+            'v1.0.0',                        // Server version
+            [                                 // Transport methods
+                    \WP\MCP\Transport\HttpTransport::class,  // Recommended: MCP 2025-06-18 compliant
+            ],
+            \WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler::class, // Error handler
+            ['my-plugin/debug-status'],         // Abilities to expose as tools
+            [],                              // Resources (optional)
+            [],                              // Prompts (optional)
+            \WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler::class // Observability handler
+        );
+    });
 }

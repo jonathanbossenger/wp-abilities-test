@@ -23,22 +23,37 @@ The plugin adds an admin menu page where these abilities can be tested interacti
 
 - WordPress 6.0 or higher
 - PHP 7.4 or higher
-- WordPress Abilities API plugin (required dependency)
+- WordPress [Abilities API](https://github.com/WordPress/abilities-api) (required dependency)
 
 ## Installation
 
-1. Clone or download this repository to your WordPress plugins directory:
+1. Clone the Abilities API from the [GitHub repository](https://github.com/WordPress/abilities-api) and install the required dependencies:
+   ```bash
+       cd wp-content/plugins/
+       git clone git@github.com:WordPress/abilities-api.git
+       cd abilities-api
+       composer install
+       npm install
+       npm run build
+   ```
+   
+2. Activate the Abilities API plugin through the WordPress admin panel or using WP-CLI:
+   ```bash
+   wp plugin activate abilities-api
+   ```
+
+3. Clone or download this repository to your WordPress plugins directory:
    ```bash
    cd wp-content/plugins/
    git clone https://github.com/jonathanbossenger/wp-abilities-test.git
    ```
 
-2. Install dependencies (for development):
+4. Install dependencies (for development):
    ```bash
    composer install
    ```
 
-3. Activate the plugin through the WordPress admin panel or using WP-CLI:
+5. Activate the plugin through the WordPress admin panel or using WP-CLI:
    ```bash
    wp plugin activate wp-abilities-test
    ```
