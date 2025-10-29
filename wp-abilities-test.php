@@ -94,15 +94,15 @@ function my_plugin_register_test_abilities_category() {
 	);
 }
 
-add_action( 'wp_abilities_api_init', 'my_plugin_register_debug_status_ability' );
+add_action( 'wp_abilities_api_init', 'wp_abilities_test_register_debug_status_ability' );
 /**
  * Registers the 'my-plugin/debug-status' ability.
  *
  * @return void
  */
-function my_plugin_register_debug_status_ability() {
+function wp_abilities_test_register_debug_status_ability() {
 	wp_register_ability(
-		'my-plugin/debug-status',
+		'test-abilities/debug-status',
 		array(
 			'label'               => __( 'Get the WordPress debug status', 'my-plugin' ),
 			'description'         => __( 'Retrieves the status of the WordPress Debugging Constants.', 'my-plugin' ),
@@ -124,8 +124,8 @@ function my_plugin_register_debug_status_ability() {
 					),
 				),
 			),
-			'execute_callback'    => 'my_plugin_register_debug_status_execute_callback',
-			'permission_callback' => 'my_plugin_register_debug_status_permission_callback',
+			'execute_callback'    => 'wp_abilities_test_register_debug_status_execute_callback',
+			'permission_callback' => 'wp_abilities_test_register_debug_status_permission_callback',
 			'meta'                => array(
 				'type' => 'tool',
                 'show_in_rest' => true,
@@ -139,7 +139,7 @@ function my_plugin_register_debug_status_ability() {
  *
  * @return array An array containing the status of WP_DEBUG, WP_DEBUG_DISPLAY, and WP_DEBUG_LOG constants.
  */
-function my_plugin_register_debug_status_execute_callback() {
+function wp_abilities_test_register_debug_status_execute_callback() {
 	$debug         = defined( 'WP_DEBUG' ) && WP_DEBUG;
 	$debug_display = defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
 	$debug_log     = defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG;
@@ -155,29 +155,12 @@ function my_plugin_register_debug_status_execute_callback() {
  *
  * @return bool True if the user can manage options, false otherwise.
  */
-function my_plugin_register_debug_status_permission_callback() {
+function wp_abilities_test_register_debug_status_permission_callback() {
 	return current_user_can( 'manage_options' );
 }
 
 // Check if the MCP Adapter plugin is installed and active
-if ( class_exists( WP\MCP\Core\McpAdapter::class ) ) {
-    $adapter = WP\MCP\Core\McpAdapter::instance();
-    add_action('mcp_adapter_init', function($adapter) {
-        $adapter->create_server(
-            'ai-experiments-server',                    // Unique server identifier
-            'ai-experiments',                    // REST API namespace
-            'mcp',                            // REST API route
-            'My AI Experiments Server',                  // Server name
-            'My AI Experiments Server',       // Server description
-            'v1.0.0',                        // Server version
-            [                                 // Transport methods
-                    \WP\MCP\Transport\HttpTransport::class,  // Recommended: MCP 2025-06-18 compliant
-            ],
-            \WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler::class, // Error handler
-            ['my-plugin/debug-status'],         // Abilities to expose as tools
-            [],                              // Resources (optional)
-            [],                              // Prompts (optional)
-            \WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler::class // Observability handler
-        );
-    });
+if ( class_exists( \WP\MCP\Core\McpAdapter::class ) ) {
+    // activate the default server
+    \WP\MCP\Core\McpAdapter::instance();
 }

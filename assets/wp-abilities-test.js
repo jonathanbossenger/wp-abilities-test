@@ -11,7 +11,7 @@
 
     // Register a notification ability which sends an alert to the user
     registerAbility({
-        name: 'my-plugin/alert-user',
+        name: 'test-abilities/alert-user',
         label: 'Alert User',
         description: 'Display an alert message to the user',
         category: 'test-abilities',
@@ -31,23 +31,24 @@
         }
     });
 
-    // Hook into the check-debug-status button, and execute the my-plugin/debug-status ability
-    // Update the debug-status-result pre with the result
+    // Hook into the check-debug-status button, and execute the test-abilities/debug-status ability
     const button = document.getElementById('check-debug-status');
-    const resultPre = document.getElementById('debug-status-result');
-    button.addEventListener('click', async () => {
-        const result = await executeAbility('my-plugin/debug-status');
-        resultPre.textContent = JSON.stringify(result, null, 2);
-    });
-
-    // Hook into the alert-user button, and execute the my-plugin/alert-user ability
+    if (button){
+        const resultPre = document.getElementById('debug-status-result');
+        button.addEventListener('click', async () => {
+            const result = await executeAbility('test-abilities/debug-status');
+            resultPre.textContent = JSON.stringify(result, null, 2);
+        });
+    }
+    // Hook into the alert-user button, and execute the test-abilities/alert-user ability
     const alertButton = document.getElementById('alert-user');
-    const message = document.getElementById('alert-message');
-    alertButton.addEventListener('click', async () => {
-        const msg = message.value || 'Hello from my-plugin/alert-user ability!';
-        await executeAbility('my-plugin/alert-user', { message: msg });
-    })
-
+    if (alertButton){
+        const message = document.getElementById('alert-message');
+        alertButton.addEventListener('click', async () => {
+            const msg = message.value || 'Hello from test-abilities/alert-user ability!';
+            await executeAbility('test-abilities/alert-user', { message: msg });
+        })
+    }
 }( wp ) );
 
 
